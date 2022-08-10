@@ -33,7 +33,7 @@ class VideoWriter:
         self.container = av.open(path, mode='w')
         self.stream = self.container.add_stream('h264', rate=round(frame_rate))
         self.stream.pix_fmt = 'yuv420p'
-        self.stream.bit_rate = bit_rate
+        # self.stream.bit_rate = bit_rate
     
     def write(self, frames):
         # frames: [T, C, H, W]
@@ -46,7 +46,7 @@ class VideoWriter:
             frame = frames[t]
             frame = av.VideoFrame.from_ndarray(frame, format='rgb24')
             self.container.mux(self.stream.encode(frame))
-                
+
     def close(self):
         self.container.mux(self.stream.encode())
         self.container.close()
